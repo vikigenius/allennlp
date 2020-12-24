@@ -86,15 +86,8 @@ class FileLock(_FileLock):
     def acquire(self, timeout=None, poll_interval=0.05):
         try:
             super().acquire(timeout=timeout, poll_intervall=poll_interval)
-        except OSError:
-            if os.path.isfile(self._lock_file) and self._read_only_ok:
-                warnings.warn(
-                    f"Lacking permissions required to obtain lock '{self._lock_file}'. "
-                    "Race conditions are possible if other processes are writing to the same resource.",
-                    UserWarning,
-                )
-            else:
-                raise
+        except:
+            pass
 
 
 def _resource_to_filename(resource: str, etag: str = None) -> str:
